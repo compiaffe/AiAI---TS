@@ -5,10 +5,10 @@ clc
 clear all
 
 %% VARIABLES !!!!!EDIT HERE!!!!!
-popSize=10;
-geneLength=10;
-generations=200;
-maxCycles = 2; %how often to redo different the evolution from initiation
+popSize=5;
+geneLength=5;
+generations=50;
+maxCycles = 5; %how often to redo different the evolution from initiation
 
 mutationRate=1/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
@@ -41,7 +41,7 @@ for evoCycles = 1:maxCycles
     
     %% initiate the GA with random genes
     %population = generate_binary_gene_population(population,popSize,geneLength);
-    population = generate_TS_population(population,popSize,geneLength);
+    population = generate_TS_population(population,popSize,geneLength); %checked and works
 
     
     
@@ -62,7 +62,7 @@ for evoCycles = 1:maxCycles
         %% calculate individual fitness for a TSP problem
         population = tsp_fitness(population, popSize, geneLength, distanceChartTSP); 
         
-        %% calculate overall fitness,find and save best individual
+        %% calculate overall fitness,find and save best individual - it assumes a bigger number is a better fitness.
         
         totPopFitness=0;
         maxFitness = 0;
