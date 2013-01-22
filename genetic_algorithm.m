@@ -12,7 +12,7 @@ maxCycles = 5; %how often to redo different the evolution from initiation
 
 mutationRate=1/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
-tournament_size = 10;
+tournamentSize = 10;
 %
 
 twoPointCO = 0;
@@ -60,6 +60,10 @@ for evoCycles = 1:maxCycles
         %% calculate individual fitness for a TSP problem
         %population = tsp_fitness(population, popSize, geneLength, distanceChartTSP); 
         
+               
+        %% calculate individual fitness for the assignment problem
+        Rob_Ass_fitness(population, popSize, geneLength );
+        
         %% calculate overall fitness,find and save best individual - it assumes a bigger number is a better fitness.
         
         totPopFitness=0;
@@ -85,10 +89,10 @@ for evoCycles = 1:maxCycles
         % greater than or equal to the randomly chosen number.
         
         %  parents = roulette_wheel_selection(population,popSize, totPopFitness);
-        parents = tournament_selection(population,popSize,tournament_size);
+        parents = tournament_selection(population,popSize,geneLength, tournamentSize);
         
         %% Recombination - one point cross over
-        % offspring = one_point_CO(parents,popSize,geneLength);
+         offspring = one_point_CO(parents,popSize,geneLength);
         
         %% Recombination - two point cross over
         %offspring = two_point_CO(parents,popSize,geneLength,coRate);
@@ -100,13 +104,13 @@ for evoCycles = 1:maxCycles
         
         
         %% TSP crossover TBD!!!!!!!!!!!!!
-        offspring = order1_TSP_CO(parents, popSize, geneLength);
+        %offspring = order1_TSP_CO(parents, popSize, geneLength);
         %% Mutation
        % standart binary mutation 
-       %offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
+       offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
        
        % swapTSP mutation
-       offspring = swapTSP_Mutation(offspring, popSize, geneLength);
+       %offspring = swapTSP_Mutation(offspring, popSize, geneLength);
         
         %% Survivor Selection
         

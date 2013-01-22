@@ -1,4 +1,4 @@
-function [ output_args ] = Rob_Ass_fitness(population, popSize, geneLength )
+function [ population ] = Rob_Ass_fitness(population, popSize, geneLength )
 %ROB_ASS_FITNESS Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -18,19 +18,22 @@ for x = 1 : popSize
     east = 1;
     south = 2;
     west = 3;
+    action = 0;
  %starting position and heading   
-    position = [2,2];
-    heading = east;  
-    ahead = [0 0 0];
+   robot.position = [2,2];
+    robot.heading = east;  
+    ahead = [0 0 0;
+             0 0 0;
+             0 0 0];  % [xleft yleft track?; xcenter ycenter track?; xright  ...]
     
     for day = 1:35
-        ahead = read_sensor_RA(world,position, heading);
-        action  = look_up_RA(population(x), ahead); %decides and moves - simple lookup table here now
+        ahead = read_sensor_RA(world,robot);
+        action  = look_up_RA(population(x), ahead); %decides on action simple lookup table here now
         
-        position = move_RA(position, action);
-        if (world(position) == 1)
+        robot.position = move_RA(robot,action, ahead);
+        if (world(robot.position) == 1)
             population(x).f = population(x).f + 1;
-            world(position) = 0;
+            world(robot.position) = 0;
         end
     end
 end
