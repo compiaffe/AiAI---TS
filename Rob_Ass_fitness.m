@@ -30,10 +30,10 @@ for x = 1 : popSize
         ahead = read_sensor_RA(world,robot);
         action  = look_up_RA(population(x), ahead); %decides on action simple lookup table here now
         
-        robot.position = move_RA(robot,action, ahead);
-        if (world(robot.position) == 1)
+        robot = move_RA(robot,action, ahead);
+        if (world(robot.position(1),robot.position(2)) == 1)
             population(x).f = population(x).f + 1;
-            world(robot.position) = 0;
+            world(robot.position(1),robot.position(2)) = 0;
         end
     end
 end

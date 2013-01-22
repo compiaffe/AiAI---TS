@@ -17,7 +17,7 @@ end
 if (robot.heading == east)
     ahead = [robot.position(1)-1      robot.position(2)+1       0;
         robot.position(1)        robot.position(2)+1        0;
-        robot.position(1)+1;     robot.position(2)+1        0];
+        robot.position(1)+1     robot.position(2)+1        0];
     
 end
 
@@ -48,7 +48,7 @@ for x = 1:3
 end
 
 for x = 1:3
-    if (world(ahead(x))== 1)
+    if (world(ahead(x,1),ahead(x,2))== 1)
         ahead(x,3) = 1;
     end
 end

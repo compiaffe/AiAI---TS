@@ -12,7 +12,7 @@ function [ action ] = look_up_RA( individual, ahead)
 sensor_table_position = ahead(1,3)+(2*ahead(2,3))+(4*ahead(3,3)); 
 %Encode the binary string of our individuals genom in decimal from two
 %non overlapping adjacent bits
-action = 2*individual.g(1+(2*sensor_table_position))+individual.g(2+(2*sensor_table_position));
+action = 2*individual.g(1+(sensor_table_position))+individual.g(2+(sensor_table_position));
 
 end
 

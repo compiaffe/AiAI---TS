@@ -5,14 +5,14 @@ clc
 clear all
 
 %% VARIABLES !!!!!EDIT HERE!!!!!
-popSize=16;
+popSize=80;
 geneLength=16;
-generations=35;
+generations=15;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
 mutationRate=1/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
-tournamentSize = 10;
+tournamentSize = 5;
 %
 
 twoPointCO = 0;
@@ -62,7 +62,7 @@ for evoCycles = 1:maxCycles
         
                
         %% calculate individual fitness for the assignment problem
-        Rob_Ass_fitness(population, popSize, geneLength );
+        population = Rob_Ass_fitness(population, popSize, geneLength );
         
         %% calculate overall fitness,find and save best individual - it assumes a bigger number is a better fitness.
         
