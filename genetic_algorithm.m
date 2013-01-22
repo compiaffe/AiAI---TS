@@ -1,6 +1,6 @@
 %% This is the AiAI - Genetic Algorithm - Assignment
 %   Raphael Nagel
-%   06/Nov/2012
+%   22/Jan/2013
 clc
 clear all
 
@@ -92,10 +92,10 @@ for evoCycles = 1:maxCycles
         parents = tournament_selection(population,popSize,geneLength, tournamentSize);
         
         %% Recombination - one point cross over
-         offspring = one_point_CO(parents,popSize,geneLength);
+         %offspring = one_point_CO(parents,popSize,geneLength);
         
         %% Recombination - two point cross over
-        %offspring = two_point_CO(parents,popSize,geneLength,coRate);
+        offspring = two_point_CO(parents,popSize,geneLength,coRate);
         
         %% Recombination - uniform cross over
         %offspring = uniform_CO(parents,popSize,geneLength,coRate);

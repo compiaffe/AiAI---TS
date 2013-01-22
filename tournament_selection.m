@@ -1,4 +1,4 @@
-function [ parents ] = tournament_selection(population,popSize,geneLength, tournament_size)
+function [ parents ] = tournament_selection(population,popSize,geneLength, tournamentSize)
 %TOURNAMENT_SELECTION Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -9,7 +9,7 @@ for w = 1:popSize %create a set of parents with the same size as the old populat
     
     best_individual = 0;
     bests_fitness = 0;
-    for x = 1:tournament_size
+    for x = 1:tournamentSize
         y =  randi([1,popSize]); %find random individual from population
         if population(y).f > bests_fitness
             best_individual = y;
