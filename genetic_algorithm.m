@@ -3,6 +3,8 @@
 %   22/Jan/2013
 clc
 clear all
+hold off
+
 
 %% VARIABLES !!!!!EDIT HERE!!!!!
 popSize=80;
@@ -10,7 +12,7 @@ geneLength=16;
 generations=15;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
-mutationRate=0.1; % we should just about have one mutation per genom
+mutationRate=1/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
 tournamentSize = 5;
 %
@@ -107,7 +109,7 @@ for evoCycles = 1:maxCycles
         %offspring = order1_TSP_CO(parents, popSize, geneLength);
         %% Mutation
        % standart binary mutation 
-       %offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
+       offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
        
        % swapTSP mutation
        %offspring = swapTSP_Mutation(offspring, popSize, geneLength);
@@ -131,13 +133,15 @@ hold on
 grid on
 figure(1)
 plot(output.bestFit,'DisplayName','output.bestFit','YDataSource','output.bestFit');figure(gcf)
+xlabel('Generations - best fitness for all 5 runs');ylabel('Fitness');
 figure(2)
 plot(output.averageFit,'DisplayName','output.averageFit','YDataSource','output.averageFit');figure(gcf)
+xlabel('Generations - average fitness for all 5 runs');ylabel('Fitness');
 figure(3)
 plot(output.avgBest5,'r','LineWidth',3,'DisplayName','output.avgBest5','YDataSource','output.avgBest5');figure(gcf)
+xlabel('Generations - Average of best fitness over 5 runs');ylabel('Fitness');
 figure(4)
 plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');figure(gcf)
-xlabel('Generations');ylabel('Fitness');
-
+xlabel('Generations - Average of average fitness over 5 runs');ylabel('Fitness');
 
 

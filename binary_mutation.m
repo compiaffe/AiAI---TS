@@ -1,7 +1,6 @@
 function [ offspring ] = binary_mutation( offspring, popSize, geneLength, mutationRate )
 %BINARY_MUTATION Summary of this function goes here
 %   Detailed explanation goes here
-offspring(1:popSize)=struct('g',{[zeros(1,geneLength)]},'f',[0]);
 for x = 1:popSize                           %for all offspring
     for y = 1:geneLength                    %for each gene
         z=rand(1);                          %flip a coin completely random(like drawing from Gauss distribution?)
