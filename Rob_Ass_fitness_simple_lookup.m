@@ -1,4 +1,4 @@
-function [ population ] = Rob_Ass_fitness(population, popSize, geneLength )
+function [ population ] = Rob_Ass_fitness_simple_lookup(population, popSize, geneLength )
 %ROB_ASS_FITNESS Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -34,9 +34,15 @@ for x = 1 : popSize
     
     for day = 1:35
         ahead = read_sensor_RA(world,robot);
-        action  = look_up_RA(population(x), ahead); %decides on action simple lookup table here now
-        
+        %%simple lookup - cant cross the gap - needs geneLength of
+        %%16(2^3*2)
+        action  = look_up_simple_RA(population(x), ahead); %decides on action simple lookup table here now
+
+        %%move the robot
         robot = move_RA(robot,action, ahead);
+
+        
+        %% update fitness
         if (world(robot.position(1),robot.position(2)) == 1)
             population(x).f = population(x).f + 1;
             world(robot.position(1),robot.position(2)) = 0;

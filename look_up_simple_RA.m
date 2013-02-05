@@ -1,4 +1,4 @@
-function [ action ] = look_up_RA( individual, ahead)
+function [ action ] = look_up_simple_RA( individual, ahead)
 %LOOK_UP_RA decodes the genome and outputs action 
 %   the genome is a binary string bitmapping all 8 possible sensor
 %   values(ahead) to one of 4 actions

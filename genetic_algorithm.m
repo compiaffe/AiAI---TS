@@ -8,7 +8,8 @@ hold off
 
 %% VARIABLES !!!!!EDIT HERE!!!!!
 popSize=80;
-geneLength=16;
+%geneLength=16; %2^3*2 - 3 sensor positions with on/off(8) -- 4 possible actions (2^2 = 2bits)==>16
+geneLength = 32; %as above but with memory of previous position (2^4*2)
 generations=15;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
@@ -16,8 +17,6 @@ mutationRate=1/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
 tournamentSize = 5;
 %
-
-twoPointCO = 0;
 
 
 %% set up thearray, etc.
@@ -42,7 +41,7 @@ for evoCycles = 1:maxCycles
     
     %% initiate the GA with random genes
     population = generate_binary_gene_population(population,popSize,geneLength);
-
+    
     
     
     
@@ -57,14 +56,16 @@ for evoCycles = 1:maxCycles
         %population = pair1s_fitness(population,popSize,geneLength);
         
         %% calculate individual fitness based on paired genes
-       % population = strict_pairs1s_fitness(population,popSize,geneLength);
-       
-        %% calculate individual fitness for a TSP problem
-        %population = tsp_fitness(population, popSize, geneLength, distanceChartTSP); 
+        % population = strict_pairs1s_fitness(population,popSize,geneLength);
         
-               
+        %% calculate individual fitness for a TSP problem
+        %population = tsp_fitness(population, popSize, geneLength, distanceChartTSP);
+        
+        
         %% calculate individual fitness for the assignment problem
-        population = Rob_Ass_fitness(population, popSize, geneLength );
+        population = Rob_Ass_fitness_1_mem_lookup(population, popSize, geneLength );
+        %population = Rob_Ass_fitness_simple_lookup(population, popSize, geneLength );
+        
         
         %% calculate overall fitness,find and save best individual - it assumes a bigger number is a better fitness.
         
@@ -90,11 +91,11 @@ for evoCycles = 1:maxCycles
         %of the individuals in the population again until the running sum is
         % greater than or equal to the randomly chosen number.
         
-          %parents = roulette_wheel_selection(population,popSize, totPopFitness);
+        %parents = roulette_wheel_selection(population,popSize, totPopFitness);
         parents = tournament_selection(population,popSize,geneLength, tournamentSize);
         
         %% Recombination - one point cross over
-         %offspring = one_point_CO(parents,popSize,geneLength);
+        %offspring = one_point_CO(parents,popSize,geneLength);
         
         %% Recombination - two point cross over
         offspring = two_point_CO(parents,popSize,geneLength,coRate);
@@ -104,15 +105,14 @@ for evoCycles = 1:maxCycles
         
         
         
-        
         %% TSP crossover TBD!!!!!!!!!!!!!
         %offspring = order1_TSP_CO(parents, popSize, geneLength);
         %% Mutation
-       % standart binary mutation 
-       offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
-       
-       % swapTSP mutation
-       %offspring = swapTSP_Mutation(offspring, popSize, geneLength);
+        % standart binary mutation
+        offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
+        
+        % swapTSP mutation
+        %offspring = swapTSP_Mutation(offspring, popSize, geneLength);
         
         %% Survivor Selection
         
@@ -143,5 +143,6 @@ xlabel('Generations - Average of best fitness over 5 runs');ylabel('Fitness');
 figure(4)
 plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');figure(gcf)
 xlabel('Generations - Average of average fitness over 5 runs');ylabel('Fitness');
+hold off
 
 
