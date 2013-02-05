@@ -20,7 +20,7 @@ for x = 1 : popSize
     west = 3;
     action = 0;
     %starting position and heading
-    robot.position = [1,1];
+    robot.position = [2,1];
     robot.heading = east;
     ahead = [0 0 0;
         0 0 0;

@@ -10,7 +10,7 @@ geneLength=16;
 generations=15;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
-mutationRate=1/geneLength; % we should just about have one mutation per genom
+mutationRate=0.1; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
 tournamentSize = 5;
 %
@@ -88,7 +88,7 @@ for evoCycles = 1:maxCycles
         %of the individuals in the population again until the running sum is
         % greater than or equal to the randomly chosen number.
         
-        %  parents = roulette_wheel_selection(population,popSize, totPopFitness);
+          %parents = roulette_wheel_selection(population,popSize, totPopFitness);
         parents = tournament_selection(population,popSize,geneLength, tournamentSize);
         
         %% Recombination - one point cross over
@@ -107,7 +107,7 @@ for evoCycles = 1:maxCycles
         %offspring = order1_TSP_CO(parents, popSize, geneLength);
         %% Mutation
        % standart binary mutation 
-       offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
+       %offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
        
        % swapTSP mutation
        %offspring = swapTSP_Mutation(offspring, popSize, geneLength);
@@ -129,9 +129,13 @@ output.avgAvg5 = mean(output.averageFit,2);
 
 hold on
 grid on
+figure(1)
 plot(output.bestFit,'DisplayName','output.bestFit','YDataSource','output.bestFit');figure(gcf)
+figure(2)
 plot(output.averageFit,'DisplayName','output.averageFit','YDataSource','output.averageFit');figure(gcf)
+figure(3)
 plot(output.avgBest5,'r','LineWidth',3,'DisplayName','output.avgBest5','YDataSource','output.avgBest5');figure(gcf)
+figure(4)
 plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');figure(gcf)
 xlabel('Generations');ylabel('Fitness');
 
