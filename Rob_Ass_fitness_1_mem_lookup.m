@@ -25,10 +25,9 @@ for x = 1 : popSize
     robot.lastPos = 1;
     robot.currentPos = 1;
     
-    ahead = [0 0 0;
+    current_ahead = [0 0 0;
         0 0 0;
         0 0 0];  % [xleft yleft track?; xcenter ycenter track?; xright  ...]
-    
     %starting on track?
     if (world(robot.position(1),robot.position(2)) == 1)
         population(x).f = population(x).f + 1;
@@ -36,14 +35,16 @@ for x = 1 : popSize
     end
     
     for day = 1:35
-        ahead = read_sensor_RA(world,robot);
+        previous_ahead = current_ahead;
+        
+        current_ahead = read_sensor_RA(world,robot);
         %%simple lookup - cant cross the gap - needs geneLength of
         %%16(2^3*2)
-        %% extended to 32 bits for last cell memory
-        action = look_up_1_mem_RA(population(x),ahead,robot.lastPos);
+        %% extended to 64 bits to hold current ahead and previous ahead
+        action = look_up_1_mem_RA(population(x),current_ahead,previous_ahead);
         
         %%move the robot
-        robot = move_RA(robot,action, ahead);
+        robot = move_RA(robot,action, current_ahead);
         
         %%the last position
         
