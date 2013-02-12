@@ -3,6 +3,7 @@
 %   22/Jan/2013
 clc
 clear all
+close all
 hold off
 
 
@@ -132,15 +133,16 @@ output.avgAvg5 = mean(output.averageFit,2);
 hold on
 grid on
 figure(1)
+subplot(2,2,1);
 plot(output.bestFit,'DisplayName','output.bestFit','YDataSource','output.bestFit');figure(gcf)
 xlabel('Generations - best fitness for all 5 runs');ylabel('Fitness');
-figure(2)
+subplot(2,2,2);
 plot(output.averageFit,'DisplayName','output.averageFit','YDataSource','output.averageFit');figure(gcf)
 xlabel('Generations - average fitness for all 5 runs');ylabel('Fitness');
-figure(3)
+subplot(2,2,3);
 plot(output.avgBest5,'r','LineWidth',3,'DisplayName','output.avgBest5','YDataSource','output.avgBest5');figure(gcf)
 xlabel('Generations - Average of best fitness over 5 runs');ylabel('Fitness');
-figure(4)
+subplot(2,2,4);
 plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');figure(gcf)
 xlabel('Generations - Average of average fitness over 5 runs');ylabel('Fitness');
 hold off
