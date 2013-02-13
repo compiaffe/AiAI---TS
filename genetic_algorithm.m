@@ -41,8 +41,8 @@ for evoCycles = 1:maxCycles
     
     
     %% initiate the GA with random genes
-    population = generate_binary_gene_population(population,popSize,geneLength);
-    
+    %population = generate_binary_gene_population(population,popSize,geneLength);
+    population = generate_realnum_0_1_gene_population(population,popSize,geneLength);
     
     
     
@@ -64,9 +64,26 @@ for evoCycles = 1:maxCycles
         
         
         %% calculate individual fitness for the assignment problem
-        population = Rob_Ass_fitness_1_mem_lookup(population, popSize, geneLength );
+        %population = Rob_Ass_fitness_1_mem_lookup(population, popSize);
         %population = Rob_Ass_fitness_simple_lookup(population, popSize, geneLength );
         
+        %% set up the ANN
+        % the ANN architecture - at the moment defined by hand, later possibly by the GA
+        
+        ANN_map = [
+            0 0 0 1 1 0 1 0 0;
+            0 0 0 0 1 1 0 0 0;
+            0 0 0 1 1 1 1 0 0;
+            0 0 0 0 0 0 0 1 0;
+            0 0 0 0 0 0 0 1 1;
+            0 0 0 0 0 0 0 1 1;
+            0 0 0 0 0 0 0 0 1;
+            0 0 0 0 0 0 0 0 0;
+            0 0 0 0 0 0 0 0 0];
+        
+        neuron = ANN_connection_setup(ANN_map); !!!!!!!!!!!!!! We need to adjust the genom length to the number of weights and thresholds that need catering for
+        %% calculate individual fitness using an ANN
+        population = ANN_fitness(population,popSize, neuron);
         
         %% calculate overall fitness,find and save best individual - it assumes a bigger number is a better fitness.
         
@@ -110,8 +127,10 @@ for evoCycles = 1:maxCycles
         %offspring = order1_TSP_CO(parents, popSize, geneLength);
         %% Mutation
         % standart binary mutation
-        offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
+        %offspring = binary_mutation(offspring, popSize, geneLength, mutationRate);
         
+        % add or take mutation
+        offspring = add_take_mutation(offspring, popSize, geneLength, mutationRate);
         % swapTSP mutation
         %offspring = swapTSP_Mutation(offspring, popSize, geneLength);
         

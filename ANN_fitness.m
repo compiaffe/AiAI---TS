@@ -1,12 +1,18 @@
-function [ population ] = Rob_Ass_fitness_1_mem_lookup( population, popSize)
-%ROB_ASS_FITNESS Summary of this function goes here
+function [ population ] = ANN_fitness( population, popSize, neuron)
+%ANN_FITNESS loads and fires the ANN for the allowed 35
+%days.
 %   Detailed explanation goes here
 
 
-for x = 1 : popSize
+for x = 1:popSize
     population(x).f = 0;
+    
+    
+    neuron = ANN_load(neuron,population(x).g); %load the evolved weights
+    
     %% set up the world
-    world = [0 0 0 0 0 0 0 0;
+    world = [
+        0 0 0 0 0 0 0 0;
         1 1 1 1 1 1 0 0;
         0 0 0 0 0 1 0 0;
         0 0 0 0 0 1 0 0;
@@ -35,13 +41,11 @@ for x = 1 : popSize
     end
     
     for day = 1:35
-        previous_ahead = current_ahead;
         
         current_ahead = read_sensor_RA(world,robot);
-        %%simple lookup - cant cross the gap - needs geneLength of
-        %%16(2^3*2)
-        %% extended to 64 bits to hold current ahead and previous ahead
-        action = look_up_1_mem_RA(population(x),current_ahead,previous_ahead);
+        
+        %% ANN to calculate the next behaviour
+        action = ANN_fire(neuron, current_ahead);
         
         %%move the robot
         robot = move_RA(robot,action, current_ahead);
@@ -61,7 +65,7 @@ for x = 1 : popSize
             robot.currentPos = 0;
         end
     end
+    clear synaps_input; %reset the synapses input !!!!! CHECK IF THIS WORKS!!!!
+end
 end
 
-
-end

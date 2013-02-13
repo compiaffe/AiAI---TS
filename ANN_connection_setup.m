@@ -7,9 +7,9 @@ function [ neuron ] = ANN_connection_setup(ANN_map)
 
 
 init_synapses = 1; %change this maybe to prevent on the fly resizing of array...
-[num_neurons,]=size(ANN_map);
+num_neurons = length(ANN_map);
 
-neuron(1:num_neurons) = struct('synapses',{zeros(1,init_synapses)},'weights',{zeros(1,init_synapses)},'threshold',0,'firepower',1,'input',0);
+neuron(1:num_neurons) = struct('synapses',{zeros(1,init_synapses)},'weights',{zeros(1,init_synapses)},'threshold',0,'firepower',1);
 for x = 1:num_neurons
     z = 1;
     for y = 1:num_neurons
