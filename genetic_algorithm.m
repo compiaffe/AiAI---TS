@@ -62,7 +62,7 @@ for evoCycles = 1:maxCycles
     
     %% initiate the GA with random genes
     %population = generate_binary_gene_population(population,popSize,geneLength);
-    population = generate_realnum_0_1_gene_population(population,popSize,geneLength);
+    population = generate_realnum_minus1_1_gene_population(population,popSize,geneLength);
     
     
     

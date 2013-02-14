@@ -1,4 +1,4 @@
-function [ action ] = ANN_fire( neuron, ahead )
+function [ action ] = ANN_fire( neuron, ahead, action )
 %ANN_FIRE evaluate the neural network
 %   check all neurons. If their threshold is reached fire, apply weights
 %   and save the output in the corresponding neurons. It assumes a network
@@ -10,6 +10,7 @@ persistent synaps_input;
 if isempty(synaps_input)
     synaps_input = zeros(1,numel(neuron));
 end
+size_action = numel(action);
 
 %%  load the input nodes
 for z = 1:length(ahead)
@@ -19,24 +20,34 @@ end
 %% run the ANN
 for x = 1:numel(neuron) %for all neurons
     
+    
+    
     %% check for output nodes
-    if neuron(x).synapses == 0 %if we are at a visible final neuron (no/synaps to 0)
+    if x > (numel(neuron) - size_action); %if we are at a visible final neuron (number of neurons minus number of action bits)
         if synaps_input(x) >= neuron(x).threshold; %if we are triggered
             action(output_counter) = neuron(x).firepower;
         else
             action(output_counter) = 0;
-            
         end
         output_counter = output_counter + 1;
-        %% run the hidden layer
-    else
+    end
+    
+    
+    
+    %% run the hidden layer
+    if neuron(x).synapses ~= 0 %if we have synapses...
         if synaps_input(x) >= neuron(x).threshold; %if we are triggered
-            for y = 1:numel(neuron(x).synapses)%calculate weighted spikes
+            synaps_input(x) = 0;
+            for y = 1:numel(neuron(x).synapses)% for all connected(receiving) neurons - calculate weighted spikes
                 synaps_input(neuron(x).synapses(y)) = synaps_input(neuron(x).synapses(y)) + (neuron(x).weights(y)*neuron(x).firepower); %update and sum the output
             end
+        else
+            synaps_input(x) = 0;
+            
         end
-        
     end
+    
+    
 end
 
 
