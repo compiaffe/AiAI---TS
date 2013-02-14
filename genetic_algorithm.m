@@ -22,6 +22,26 @@ tournamentSize = 5;
 
 %% set up thearray, etc.
 
+%% set up the ANN
+% the ANN architecture - at the moment defined by hand, later possibly by a GA
+
+ANN_map = [
+    0 0 0 1 1 0 1 0 0;
+    0 0 0 0 1 1 0 0 0;
+    0 0 0 1 1 1 1 0 0;
+    0 0 0 0 0 0 0 1 0;
+    0 0 0 0 0 0 0 1 1;
+    0 0 0 0 0 0 0 1 1;
+    0 0 0 0 0 0 0 0 1;
+    0 0 0 0 0 0 0 0 0;
+    0 0 0 0 0 0 0 0 0];
+neuron = ANN_connection_setup(ANN_map); %!!!!!!!!!!!!!! We need to adjust the genom length to the number of weights and thresholds that need catering for
+
+%% find the necessary genom parameters
+numWeights = sum(sum(ANN_map));
+numThresholds = length(ANN_map);
+geneLength = numWeights + numThresholds;
+
 %struct to hold the individuals  %population=struct('g',{[]},'f',[]); backup in case the other stuff doesntwork
 
 population(1:popSize)=struct('g',{[zeros(1,geneLength)]},'f',[0]);
@@ -67,21 +87,6 @@ for evoCycles = 1:maxCycles
         %population = Rob_Ass_fitness_1_mem_lookup(population, popSize);
         %population = Rob_Ass_fitness_simple_lookup(population, popSize, geneLength );
         
-        %% set up the ANN
-        % the ANN architecture - at the moment defined by hand, later possibly by the GA
-        
-        ANN_map = [
-            0 0 0 1 1 0 1 0 0;
-            0 0 0 0 1 1 0 0 0;
-            0 0 0 1 1 1 1 0 0;
-            0 0 0 0 0 0 0 1 0;
-            0 0 0 0 0 0 0 1 1;
-            0 0 0 0 0 0 0 1 1;
-            0 0 0 0 0 0 0 0 1;
-            0 0 0 0 0 0 0 0 0;
-            0 0 0 0 0 0 0 0 0];
-        
-        neuron = ANN_connection_setup(ANN_map); !!!!!!!!!!!!!! We need to adjust the genom length to the number of weights and thresholds that need catering for
         %% calculate individual fitness using an ANN
         population = ANN_fitness(population,popSize, neuron);
         
