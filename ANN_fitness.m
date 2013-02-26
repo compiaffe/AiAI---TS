@@ -8,7 +8,7 @@ for x = 1:popSize
     population(x).f = 0;
     
     
-    neuron = ANN_load(neuron,population(x).g); %load the evolved weights
+    
     
     %% set up the world
     world = [
@@ -24,18 +24,22 @@ for x = 1:popSize
     east = 1;
     south = 2;
     west = 3;
-    action = [0 0]; %define the size of teh action array we need
+    action = [0 0]; %define the size of the action array we need
     
-   
+    
     %starting position and heading
     robot.position = [2,1];
     robot.heading = east;
-    robot.lastPos = 1;
     robot.currentPos = 1;
     
     current_ahead = [0 0 0;
         0 0 0;
         0 0 0];  % [xleft yleft track?; xcenter ycenter track?; xright  ...]
+    
+    
+    neuron = ANN_load(neuron,population(x).g,current_ahead); %load the evolved weights
+    
+    
     %starting on track?
     if (world(robot.position(1),robot.position(2)) == 1)
         population(x).f = population(x).f + 1;

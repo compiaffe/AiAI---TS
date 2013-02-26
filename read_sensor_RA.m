@@ -48,9 +48,9 @@ for x = 1:3
 end
 
 for x = 1:3
-    if (world(ahead(x,1),ahead(x,2))== 1)
-        ahead(x,3) = 1;
-    end
+    
+    ahead(x,3) = world(ahead(x,1),ahead(x,2));
+    
 end
 
 

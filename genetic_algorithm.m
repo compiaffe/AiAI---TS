@@ -25,18 +25,34 @@ tournamentSize = 5;
 %% set up the ANN
 % the ANN architecture - at the moment defined by hand, later possibly by a GA
 
+% ANN_map = [
+%     0 0 0 1 1 1 1 0 0;
+%     0 0 0 1 1 1 1 0 0;
+%     0 0 0 1 1 1 1 0 0;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 0 0;
+%     0 0 0 0 0 0 0 0 0];
 ANN_map = [
-    0 0 0 1 1 0 1 0 0;
-    0 0 0 0 1 1 0 0 0;
-    0 0 0 1 1 1 1 0 0;
-    0 0 0 0 0 0 0 1 0;
-    0 0 0 0 0 0 0 1 1;
-    0 0 0 0 0 0 0 1 1;
-    0 0 0 0 0 0 0 0 1;
-    0 0 0 0 0 0 0 0 0;
-    0 0 0 0 0 0 0 0 0];
-neuron = ANN_connection_setup(ANN_map); %!!!!!!!!!!!!!! We need to adjust the genom length to the number of weights and thresholds that need catering for
+    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0    
+    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
+neuron = ANN_connection_setup(ANN_map); 
 %% find the necessary genom parameters
 numWeights = sum(sum(ANN_map));
 numThresholds = length(ANN_map);
@@ -121,8 +137,8 @@ for evoCycles = 1:maxCycles
         %offspring = one_point_CO(parents,popSize,geneLength);
         
         %% Recombination - two point cross over
-        offspring = two_point_CO(parents,popSize,geneLength,coRate);
-        
+        %offspring = two_point_CO(parents,popSize,geneLength,coRate);
+        offspring = parents;
         %% Recombination - uniform cross over
         %offspring = uniform_CO(parents,popSize,geneLength,coRate);
         
@@ -147,9 +163,8 @@ for evoCycles = 1:maxCycles
         population(y)= rescued(1); %reinsert this fittest individual of the old population
         
         
-        
+        fprintf('Progress: %d / %d Generations, %d / %d Evolutions\n',genCycles, generations,evoCycles,maxCycles );
     end %ends the evolution
-    
 end
 output.avgBest5 = mean(output.bestFit,2);
 output.avgAvg5 = mean(output.averageFit,2);
@@ -158,16 +173,16 @@ hold on
 grid on
 figure(1)
 subplot(2,2,1);
-plot(output.bestFit,'DisplayName','output.bestFit','YDataSource','output.bestFit');figure(gcf)
+plot(output.bestFit,'DisplayName','output.bestFit','YDataSource','output.bestFit');
 xlabel('Generations - best fitness for all 5 runs');ylabel('Fitness');
 subplot(2,2,2);
-plot(output.averageFit,'DisplayName','output.averageFit','YDataSource','output.averageFit');figure(gcf)
+plot(output.averageFit,'DisplayName','output.averageFit','YDataSource','output.averageFit');
 xlabel('Generations - average fitness for all 5 runs');ylabel('Fitness');
 subplot(2,2,3);
-plot(output.avgBest5,'r','LineWidth',3,'DisplayName','output.avgBest5','YDataSource','output.avgBest5');figure(gcf)
+plot(output.avgBest5,'r','LineWidth',3,'DisplayName','output.avgBest5','YDataSource','output.avgBest5');
 xlabel('Generations - Average of best fitness over 5 runs');ylabel('Fitness');
 subplot(2,2,4);
-plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');figure(gcf)
+plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');
 xlabel('Generations - Average of average fitness over 5 runs');ylabel('Fitness');
 hold off
 
