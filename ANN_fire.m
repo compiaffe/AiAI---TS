@@ -27,8 +27,8 @@ for x = 1:numel(neuron) %for all neurons
     
     %% check for output nodes
     if x > (numel(neuron) - size_action); %if we are at a visible final neuron (number of neurons minus number of action bits)
-        if synaps_input(x) > (neuron(x).threshold*neuron(x).input_num); %if we are triggered
-            action(output_counter) = neuron(x).firepower;
+        if (synaps_input(x)+ neuron(x).bias) >= 0; %if we are triggered
+            action(output_counter) = 1;
         else
             action(output_counter) = 0;
         end
@@ -38,16 +38,20 @@ for x = 1:numel(neuron) %for all neurons
     
     
     %% run the hidden layer
-    if neuron(x).synapses(1) ~= 0 %if we have synapses...
-        if synaps_input(x) > (neuron(x).threshold*neuron(x).input_num); %if we are triggered
-            synaps_input(x) = 0;
-            for y = 1:numel(neuron(x).synapses)% for all connected(receiving) neurons - calculate weighted spikes
-                synaps_input(neuron(x).synapses(y)) = synaps_input(neuron(x).synapses(y)) + (neuron(x).weights(y)*neuron(x).firepower); %update and sum the output
-            end
-        else
-            synaps_input(x) = 0;
-            
+    if neuron(x).synapses(1) ~= 0 %if we have synapses...- not at the output nodes
+        for y = 1:numel(neuron(x).synapses)% for all connected(receiving) neurons - calculate weighted spikes
+       synaps_input( neuron(x).synapses(y) ) = synaps_input( neuron(x).synapses(y) ) + ( sigmf( (synaps_input(x)+neuron(x).bias),[1 1] ) * neuron(x).weights(y) );
         end
+        
+        %         if synaps_input(x) > (neuron(x).threshold*neuron(x).input_num); %if we are triggered
+        %             synaps_input(x) = 0;
+        %             for y = 1:numel(neuron(x).synapses)% for all connected(receiving) neurons - calculate weighted spikes
+        %                 synaps_input(neuron(x).synapses(y)) = synaps_input(neuron(x).synapses(y)) + (neuron(x).weights(y)*neuron(x).firepower); %update and sum the output
+        %             end
+        %         else
+        %             synaps_input(x) = 0;
+        %
+        %         end
     end
     
     

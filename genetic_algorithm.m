@@ -11,7 +11,7 @@ hold off
 popSize=80;
 %geneLength=16; %2^3*2 - 3 sensor positions with on/off(8) -- 4 possible actions (2^2 = 2bits)==>16
 geneLength = 128; %as above but with memory of previous sensor reading (2^6*2) - 3 current and 3 previous sensor positions
-generations=50;
+generations=60;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
 mutationRate=0.1/geneLength; % we should just about have one mutation per genom
@@ -25,38 +25,39 @@ tournamentSize = 5;
 %% set up the ANN
 % the ANN architecture - at the moment defined by hand, later possibly by a GA
 
-% ANN_map = [
-%     0 0 0 1 1 1 1 0 0;
-%     0 0 0 1 1 1 1 0 0;
-%     0 0 0 1 1 1 1 0 0;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 0 0;
-%     0 0 0 0 0 0 0 0 0];
 ANN_map = [
-    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0    
-    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+    0 0 0 1 1 1 1 0 0;
+    0 0 0 1 1 1 1 0 0;
+    0 0 0 1 1 1 1 0 0;
+    0 0 0 0 0 0 0 1 1;
+    0 0 0 0 0 0 0 1 1;
+    0 0 0 0 0 0 0 1 1;
+    0 0 0 0 0 0 0 1 1;
+    0 0 0 0 0 0 0 0 0;
+    0 0 0 0 0 0 0 0 0];
+
+% ANN_map = [
+%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0    
+%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+%     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
 neuron = ANN_connection_setup(ANN_map); 
 %% find the necessary genom parameters
 numWeights = sum(sum(ANN_map));
-numThresholds = length(ANN_map);
-geneLength = numWeights + numThresholds;
+numBias = length(ANN_map);
+geneLength = numWeights + numBias;
 
 %struct to hold the individuals  %population=struct('g',{[]},'f',[]); backup in case the other stuff doesntwork
 
@@ -75,7 +76,7 @@ output=struct('bestFit',zeros(generations,maxCycles),'averageFit',zeros(generati
 
 for evoCycles = 1:maxCycles
     
-    
+   
     %% initiate the GA with random genes
     %population = generate_binary_gene_population(population,popSize,geneLength);
     population = generate_realnum_minus1_1_gene_population(population,popSize,geneLength);
@@ -84,7 +85,7 @@ for evoCycles = 1:maxCycles
     
     %% !!!!!! START THE EVOLUTION !!!!!
     for genCycles = 1:generations
-        
+         clear synaps_input; %clear the persistent synaps_input
         
         %% calculate individual fitness by summing each genes with 1 per individual
         %population = n1s_fitness(population,popSize,geneLength);

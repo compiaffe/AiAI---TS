@@ -36,7 +36,7 @@ if (robot.heading == west)
         robot.position(2)-1      robot.position(1)-1        0];
 end
 
-for x = 1:3
+for x = 1:3 %%check for edge wrapping
     for y = 1:2
         if (ahead(x,y) < 1)
             ahead(x,y) = 8;
@@ -47,9 +47,12 @@ for x = 1:3
     end
 end
 
-for x = 1:3
-    
-    ahead(x,3) = world(ahead(x,1),ahead(x,2));
+for x = 1:3 %%
+    if world(ahead(x,1),ahead(x,2)) == 1
+    ahead(x,3) = 1;
+    else
+    ahead(x,3) = -1;    
+    end
     
 end
 
