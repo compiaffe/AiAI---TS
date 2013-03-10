@@ -1,6 +1,6 @@
 %% This is the AiAI - Genetic Algorithm - Assignment
 %   Raphael Nagel
-%   22/Jan/2013
+%   10/Mar/2013
 clc
 clear all
 close all
@@ -26,9 +26,9 @@ tournamentSize = 20;
 % the ANN architecture - at the moment defined by hand, later possibly by a GA
 
 ANN_map = [
-    0 0 0 1 1 1 1 0 0;
-    0 0 0 1 1 1 1 0 0;
-    0 0 0 1 1 1 1 0 0;
+    1 0 0 1 1 1 1 0 0;
+    0 1 0 1 1 1 1 0 0;
+    0 0 1 1 1 1 1 0 0;
     0 0 0 0 0 0 0 1 1;
     0 0 0 0 0 0 0 1 1;
     0 0 0 0 0 0 0 1 1;
@@ -38,22 +38,22 @@ ANN_map = [
 
 % ANN_map = [
 %     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0    
 %     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-%     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
+%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0];
 
-neuron = ANN_connection_setup(ANN_map); 
+neuron = ANN_connection_setup(ANN_map);
 %% find the necessary genom parameters
 numWeights = sum(sum(ANN_map));
 numBias = length(ANN_map);
@@ -76,7 +76,7 @@ output=struct('bestFit',zeros(generations,maxCycles),'averageFit',zeros(generati
 
 for evoCycles = 1:maxCycles
     
-   
+    
     %% initiate the GA with random genes
     %population = generate_binary_gene_population(population,popSize,geneLength);
     population = generate_realnum_minus1_1_gene_population(population,popSize,geneLength);
@@ -85,7 +85,6 @@ for evoCycles = 1:maxCycles
     
     %% !!!!!! START THE EVOLUTION !!!!!
     for genCycles = 1:generations
-         clear synaps_input; %clear the persistent synaps_input
         
         %% calculate individual fitness by summing each genes with 1 per individual
         %population = n1s_fitness(population,popSize,geneLength);
@@ -173,18 +172,38 @@ output.avgAvg5 = mean(output.averageFit,2);
 hold on
 grid on
 figure(1)
-subplot(2,2,1);
+subplot(3,2,1);
 plot(output.bestFit,'DisplayName','output.bestFit','YDataSource','output.bestFit');
-xlabel('Generations - best fitness for all 5 runs');ylabel('Fitness');
-subplot(2,2,2);
+xlabel('Generations');ylabel('Fitness');title('Best fitness for all 5 runs');
+subplot(3,2,2);
 plot(output.averageFit,'DisplayName','output.averageFit','YDataSource','output.averageFit');
-xlabel('Generations - average fitness for all 5 runs');ylabel('Fitness');
-subplot(2,2,3);
+xlabel('Generations');ylabel('Fitness');title('Average fitness for all 5 runs')
+subplot(3,2,3);
 plot(output.avgBest5,'r','LineWidth',3,'DisplayName','output.avgBest5','YDataSource','output.avgBest5');
-xlabel('Generations - Average of best fitness over 5 runs');ylabel('Fitness');
-subplot(2,2,4);
+xlabel('Generations');ylabel('Fitness');title('Average of best fitness over 5 runs');
+subplot(3,2,4);
 plot(output.avgAvg5,'b','LineWidth',3,'DisplayName','output.avgAvg5','YDataSource','output.avgAvg5');
-xlabel('Generations - Average of average fitness over 5 runs');ylabel('Fitness');
+xlabel('Generations');ylabel('Fitness');title('Average of average fitness over 5 runs');
+
+C = {'PopulationSize: ','\linebreak[4] GeneLength: ','\linebreak[4] Generations: ','\linebreak[4] Evolutions: ','\linebreak[4] Mut. Rate: ', '\linebreak[4] Crossover Rate: ', '\linebreak[4] Tournament Size: ';
+    popSize, geneLength,generations,maxCycles, mutationRate,coRate, tournamentSize};
+printme = sprintf(' %s%d',C{:});
+annotation('textbox','Units','characters', 'position',[11 2 21 10],'Interpreter','latex','BackgroundColor', [1 1 1], 'FitBoxToText', 'off', 'String', printme);
+subplot(3,2,6);
+map = zeros(2, length(ANN_map));
+z = 1;
+for x = 1: length(ANN_map)
+    for y = 1: length(ANN_map)
+        if ANN_map(x,y) == 1
+            map(1,z) = x;
+            map(2,z) = y;
+            z = z+1;
+        end
+    end
+end
+scatter(map(1,:),map(2,:),'filled');
+grid on
+axis ([1 length(ANN_map) 1 length(ANN_map)])
 hold off
 
 

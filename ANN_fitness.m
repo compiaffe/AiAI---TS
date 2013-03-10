@@ -38,6 +38,7 @@ for x = 1:popSize
     
     
     neuron = ANN_load(neuron,population(x).g,current_ahead); %load the evolved weights
+    synaps_input = zeros(1,numel(neuron)); % initialise the input values to the synaps.
     
     
     %starting on track?
@@ -46,15 +47,16 @@ for x = 1:popSize
         world(robot.position(1),robot.position(2)) = 0;
     end
     
+    
     for day = 1:35
         
         current_ahead = read_sensor_RA(world,robot);
         
         %% ANN to calculate the next behaviour
-        action = ANN_fire(neuron, current_ahead,action);
+        [action synaps_input] = ANN_fire(neuron, current_ahead, action, synaps_input);
         
         %%move the robot
-        robot = move_RA(robot,action, current_ahead);
+        robot = move_RA(robot, action, current_ahead);
         
         %%the last position
         
@@ -71,7 +73,6 @@ for x = 1:popSize
             robot.currentPos = 0;
         end
     end
-    clear synaps_input; %reset the synapses input !!!!! CHECK IF THIS WORKS!!!!
 end
 end
 
