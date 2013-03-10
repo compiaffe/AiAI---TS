@@ -1,4 +1,4 @@
-function [ neuron ] = ANN_load(neuron,weights,ahead)
+function [ neuron ] = ANN_load(neuron,weights)
 %ANN_LOAD_FIRE Takes the prebuild neural network and loads the current weights
 %   The weights have the format: weights = [threshold1 w1 w2 w3 ... wn threshold2 w1 w2 w3 ...]
 

@@ -1,4 +1,4 @@
-function [ action synaps_input] = ANN_fire( neuron, ahead, action, synaps_input )
+function [ action synaps_input] = ANN_fire( neuron, sensor_reading, action, synaps_input )
 %ANN_FIRE evaluate the neural network
 %   check all neurons. If their threshold is reached fire, apply weights
 %   and save the output in the corresponding neurons. It assumes a network
@@ -9,8 +9,8 @@ output_counter = 1;
 size_action = numel(action);
 
 %%  load the input nodes
-for z = 1:length(ahead)
-    synaps_input(z) = synaps_input(z) + ahead(z,3); %add the current ahead values to the recursive values received from the hidden layer
+for z = 1:length(sensor_reading)
+    synaps_input(z) = synaps_input(z) + sensor_reading(z); %add the current ahead values to the recursive values received from the hidden layer
     
 end
 

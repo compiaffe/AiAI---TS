@@ -32,17 +32,19 @@ for x = 1:popSize
     robot.heading = east;
     robot.currentPos = 1;
     
-    current_ahead = [0 0 0;
-        0 0 0;
-        0 0 0];  % [xleft yleft track?; xcenter ycenter track?; xright  ...]
+    
+    %     current_ahead = [0 0 0;
+    %         0 0 0;
+    %         0 0 0];  % [xleft yleft track?; xcenter ycenter track?; xright  ...]
+         sensor_reading = [-1 1 -1 -1 1 -1];
     
     
-    neuron = ANN_load(neuron,population(x).g,current_ahead); %load the evolved weights
+    neuron = ANN_load(neuron,population(x).g); %load the evolved weights
     synaps_input = zeros(1,numel(neuron)); % initialise the input values to the synaps.
     
     
     %starting on track?
-    if (world(robot.position(1),robot.position(2)) == 1)
+    if(world(robot.position(1),robot.position(2)) == 1)
         population(x).f = population(x).f + 1;
         world(robot.position(1),robot.position(2)) = 0;
     end
@@ -50,10 +52,10 @@ for x = 1:popSize
     
     for day = 1:35
         
-        current_ahead = read_sensor_RA(world,robot);
+        [sensor_reading current_ahead] = read_sensor_RA(world,robot, sensor_reading);
         
         %% ANN to calculate the next behaviour
-        [action synaps_input] = ANN_fire(neuron, current_ahead, action, synaps_input);
+        [action synaps_input] = ANN_fire(neuron, sensor_reading, action, synaps_input);
         
         %%move the robot
         robot = move_RA(robot, action, current_ahead);

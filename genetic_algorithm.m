@@ -14,9 +14,9 @@ geneLength = 128; %as above but with memory of previous sensor reading (2^6*2) -
 generations=60;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
-mutationRate=0.1/geneLength; % we should just about have one mutation per genom
+mutationRate=1/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
-tournamentSize = 20;
+tournamentSize = 40;
 %
 
 
@@ -25,33 +25,33 @@ tournamentSize = 20;
 %% set up the ANN
 % the ANN architecture - at the moment defined by hand, later possibly by a GA
 
-ANN_map = [
-    1 0 0 1 1 1 1 0 0;
-    0 1 0 1 1 1 1 0 0;
-    0 0 1 1 1 1 1 0 0;
-    0 0 0 0 0 0 0 1 1;
-    0 0 0 0 0 0 0 1 1;
-    0 0 0 0 0 0 0 1 1;
-    0 0 0 0 0 0 0 1 1;
-    0 0 0 0 0 0 0 0 0;
-    0 0 0 0 0 0 0 0 0];
-
 % ANN_map = [
-%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     1 1 1 0 0 0 0 0 0 0 0 0 0 1 1
-%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
-%     0 0 0 1 1 1 1 1 1 1 1 1 1 0 0];
+%     1 0 0 1 1 1 1 0 0;
+%     0 1 0 1 1 1 1 0 0;
+%     0 0 1 1 1 1 1 0 0;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 1 1;
+%     0 0 0 0 0 0 0 1 1;
+%     1 1 0 0 0 0 0 0 0;
+%     1 1 0 0 0 0 0 0 0];
+
+ANN_map = [
+    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
 neuron = ANN_connection_setup(ANN_map);
 %% find the necessary genom parameters
@@ -190,20 +190,27 @@ C = {'PopulationSize: ','\linebreak[4] GeneLength: ','\linebreak[4] Generations:
 printme = sprintf(' %s%d',C{:});
 annotation('textbox','Units','characters', 'position',[11 2 21 10],'Interpreter','latex','BackgroundColor', [1 1 1], 'FitBoxToText', 'off', 'String', printme);
 subplot(3,2,6);
-map = zeros(2, length(ANN_map));
+map=zeros(2, length(ANN_map));
+bg_map = zeros(2, length(ANN_map));
 z = 1;
+v = 1;
 for x = 1: length(ANN_map)
     for y = 1: length(ANN_map)
         if ANN_map(x,y) == 1
-            map(1,z) = x;
-            map(2,z) = y;
+            map(2,z) = -x;
+            map(1,z) = y;
             z = z+1;
         end
+        bg_map(2,v) = -x;
+        bg_map(1,v) = y;
+        v = v+1;
     end
 end
-scatter(map(1,:),map(2,:),'filled');
-grid on
-axis ([1 length(ANN_map) 1 length(ANN_map)])
+hold on
+scatter(bg_map(1,:),bg_map(2,:),'black');
+scatter(map(1,:),map(2,:),'filled','red');
+grid off
+axis([1 length(ANN_map) -length(ANN_map) -1])
 hold off
 
 
