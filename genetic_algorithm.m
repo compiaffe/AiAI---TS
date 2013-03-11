@@ -11,12 +11,12 @@ hold off
 popSize=80;
 %geneLength=16; %2^3*2 - 3 sensor positions with on/off(8) -- 4 possible actions (2^2 = 2bits)==>16
 geneLength = 128; %as above but with memory of previous sensor reading (2^6*2) - 3 current and 3 previous sensor positions
-generations=60;
+generations=100;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
-mutationRate=1/geneLength; % we should just about have one mutation per genom
+mutationRate=3/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
-tournamentSize = 40;
+tournamentSize = 10;
 %
 
 
@@ -37,12 +37,12 @@ tournamentSize = 40;
 %     1 1 0 0 0 0 0 0 0];
 
 ANN_map = [
-    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
-    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
-    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
-    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
-    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
-    0 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    1 0 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 1 0 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 1 0 0 0 1 1 1 1 1 1 1 0 0
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1

@@ -36,7 +36,7 @@ for x = 1:popSize
     %     current_ahead = [0 0 0;
     %         0 0 0;
     %         0 0 0];  % [xleft yleft track?; xcenter ycenter track?; xright  ...]
-         sensor_reading = [-1 1 -1 -1 1 -1];
+         sensor_reading = [-1 1 -1];
     
     
     neuron = ANN_load(neuron,population(x).g); %load the evolved weights

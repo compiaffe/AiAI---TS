@@ -46,9 +46,9 @@ for x = 1:3 %%check for edge wrapping
         end
     end
 end
-for x = 1:3 %%memory of the last sensor measurement
-    sensor_out(x+3) = sensor_out(x);
-end
+% for x = 1:3 %%memory of the last sensor measurement
+%     sensor_out(x+3) = sensor_out(x);
+% end
 
 
 for x = 1:3 %%
