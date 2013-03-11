@@ -7,18 +7,6 @@ close all
 hold off
 
 
-%% VARIABLES !!!!!EDIT HERE!!!!!
-popSize=80;
-%geneLength=16; %2^3*2 - 3 sensor positions with on/off(8) -- 4 possible actions (2^2 = 2bits)==>16
-geneLength = 128; %as above but with memory of previous sensor reading (2^6*2) - 3 current and 3 previous sensor positions
-generations=100;
-maxCycles = 5; %how often to redo different the evolution from initiation
-
-mutationRate=7/geneLength; % we should just about have one mutation per genom
-coRate = 1;                   % how often we cross over
-tournamentSize = 20;
-%
-
 
 %% set up thearray, etc.
 
@@ -58,6 +46,20 @@ neuron = ANN_connection_setup(ANN_map);
 numWeights = sum(sum(ANN_map));
 numBias = length(ANN_map);
 geneLength = numWeights + numBias;
+
+
+%% VARIABLES !!!!!EDIT HERE!!!!!
+popSize=80;
+generations=100;
+maxCycles = 5; %how often to redo different the evolution from initiation
+
+mutationRate=5/geneLength; % we should just about have one mutation per genom
+coRate = 0;                   % how often we cross over
+tournamentSize = 60;
+
+%% VARIABLES !!!!!EDIT HERE!!!!!
+%%
+
 
 %struct to hold the individuals  %population=struct('g',{[]},'f',[]); backup in case the other stuff doesntwork
 
