@@ -14,7 +14,7 @@ geneLength = 128; %as above but with memory of previous sensor reading (2^6*2) -
 generations=100;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
-mutationRate=3/geneLength; % we should just about have one mutation per genom
+mutationRate=7/geneLength; % we should just about have one mutation per genom
 coRate = 1;                   % how often we cross over
 tournamentSize = 20;
 %
