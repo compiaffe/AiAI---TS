@@ -28,16 +28,16 @@ ANN_map = [
     0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
     0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
     0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
-    0 0 0 0 0 0 0 0 1 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 1 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 1 0 0
     0 0 0 1 0 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 1 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 0 1 0 0 0 0 0 0 0 1 1
     0 0 0 0 0 0 1 0 0 0 0 0 0 1 1
     0 0 0 0 0 0 0 1 0 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 1 0 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 1 0 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 1 0 1 1
+    0 0 0 0 0 0 0 0 0 0 0 0 1 1 1
     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
@@ -55,7 +55,7 @@ maxCycles = 5; %how often to redo different the evolution from initiation
 
 mutationRate=5/geneLength; % we should just about have one mutation per genom
 coRate = 0;                   % how often we cross over
-tournamentSize = 60;
+tournamentSize = 20;
 
 %% VARIABLES !!!!!EDIT HERE!!!!!
 %%

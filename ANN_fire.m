@@ -20,16 +20,20 @@ for x = 1:numel(neuron) %for all neurons
     
     
     %% run the hidden layer
+    input_temp = synaps_input(x);   %save the synaps_input in a temporary variable so that we can freely reset and work on the synaps input
+                                    %only this way we can make use of our
+                                    %recursion
+    synaps_input(x) = 0;
     if neuron(x).synapses(1) ~= 0 %if we have synapses...
         for y = 1:numel(neuron(x).synapses)% for all connected(receiving) neurons - calculate weighted spikes
-            synaps_input( neuron(x).synapses(y) ) = synaps_input( neuron(x).synapses(y) ) + ( sigmf( (synaps_input(x)+neuron(x).bias),[1 1] ) * neuron(x).weights(y) );
+            synaps_input( neuron(x).synapses(y) ) = synaps_input( neuron(x).synapses(y) ) + ( sigmf( (input_temp +neuron(x).bias),[1 1] ) * neuron(x).weights(y) );
         end
         
     end
     
     %% check for output nodes
     if x > (numel(neuron) - size_action); %if we are at a visible final neuron (number of neurons minus number of action bits)
-        if (synaps_input(x)+ neuron(x).bias) >= 0; %if we are triggered
+        if (input_temp+ neuron(x).bias) >= 0; %if we are triggered
             action(output_counter) = 1;
         else
             action(output_counter) = 0;
@@ -37,7 +41,7 @@ for x = 1:numel(neuron) %for all neurons
         output_counter = output_counter + 1;
         
     end
-    synaps_input(x) = 0;
+    
     
     
     
