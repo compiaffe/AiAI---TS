@@ -7,9 +7,7 @@ function [ population ] = ANN_fitness( population, popSize, neuron)
 for x = 1:popSize
     population(x).f = 0;
     
-    
-    
-    
+
     %% set up the world
     world = [
         0 0 0 0 0 0 0 0;
