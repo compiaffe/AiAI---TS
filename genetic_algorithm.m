@@ -12,22 +12,22 @@ hold off
 
 %% set up the ANN
 % the ANN architecture - at the moment defined by hand, later possibly by a GA
-
+% 
 % ANN_map = [
-%     1 0 0 1 1 1 1 0 0;
-%     0 1 0 1 1 1 1 0 0;
-%     0 0 1 1 1 1 1 0 0;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 1 1;
-%     0 0 0 0 0 0 0 1 1;
-%     1 1 0 0 0 0 0 0 0;
-%     1 1 0 0 0 0 0 0 0];
+%     0 0 0 1 1 1 1 0 0;
+%     0 0 0 1 1 1 1 0 0;
+%     0 0 0 1 1 1 1 0 0;
+%     0 0 0 1 0 0 0 1 1;
+%     0 0 0 0 1 0 0 1 1;
+%     0 0 0 0 0 1 0 1 1;
+%     0 0 0 0 0 0 1 1 1;
+%     0 0 0 0 0 0 0 0 0;
+%     0 0 0 0 0 0 0 0 0];
 
 ANN_map = [
-    0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
-    0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
-    0 0 0 0 0 0 0 0 1 1 1 1 1 0 0
+    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 1 1 1 1 1 1 1 1 1 1 0 0
     0 0 0 1 0 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 1 0 0 0 0 0 0 0 0 1 1
     0 0 0 0 0 1 0 0 0 0 0 0 0 1 1
@@ -53,7 +53,7 @@ popSize=80;
 generations=100;
 maxCycles = 5; %how often to redo different the evolution from initiation
 
-mutationRate=75/geneLength; % we should just about have one mutation per genom
+mutationRate=5/geneLength; % we should just about have one mutation per genom
 coRate = 0;                   % how often we cross over
 tournamentSize = 20;
 
