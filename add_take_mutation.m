@@ -7,8 +7,8 @@ function [ offspring ] = add_take_mutation( offspring, popSize, geneLength, muta
 
 for x = 1:popSize                           %for all offspring
     for y = 1:geneLength                    %for each gene
-        z=rand(1);                          %flip a coin completely random(like drawing from Gauss distribution?)
-        if z < mutationRate                 %implements the probability
+        z=rand(1);                          %find a value between 0 and 1(like drawing from Gauss distribution?)
+        if z <= mutationRate                 %implements the probability
             offspring(x).g(y) = offspring(x).g(y) + ((-1 + 2.*rand(1)));
             
         end
